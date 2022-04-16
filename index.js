@@ -51,15 +51,15 @@ app.get('/login', (req, res) => {
 
   // your application requests authorization
   var scope = 'user-read-private user-read-email';
-  res.redirect('https://accounts.spotify.com/authorize?' +
+  let redirect_url = 'https://accounts.spotify.com/authorize?' +
     new URLSearchParams({
       response_type: 'code',
       client_id: client_id,
       scope: scope,
       redirect_uri: redirect_uri,
       state: state
-    }).toString()
-  );
+    }).toString();
+  res.redirect(redirect_url);
 });
 
 app.get('/callback', (req, res) => {

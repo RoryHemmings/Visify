@@ -1,4 +1,5 @@
-const debug = true;
+let access_token = '';
+let data = { };
 
 function getWidth() {
   return Math.max(
@@ -20,19 +21,6 @@ function getHeight() {
   );
 }
 
-function setup() {
-  console.log(getWidth());
-  createCanvas(getWidth(),getHeight());
-}
-
-function draw() {
-  background(51);
-}
-
-/**
- * Obtains parameters from the hash of the URL
- * @return Object
- */
 function getHashParams() {
   let hashParams = {};
   let e,
@@ -44,64 +32,38 @@ function getHashParams() {
   return hashParams;
 }
 
-async function setFields(tokens) {
-  // data = await fetch('/api/data');
+function parseCookie() {
+  let raw = document.cookie;
+  let parsed = raw.split(';');
 
-  let data = await fetch("https://api.spotify.com/v1/me", {
-    headers: {
-      Authorization: "Bearer " + tokens.access_token,
-    }
+  let cookies = new Map();
+  parsed.forEach(cookie => {
+    kv = cookie.split('=');
+    cookies.set(kv[0], kv[1]);
   });
 
-  data = await data.json();
-  console.log(data);
+  return cookies;
+}
 
-  // document.getElementById('user-profile').innerHTML = `Song Data for ${data.display_name}`;
- }
+async function getData(tokens) {
+  res = await fetch('/api/data');
+  return await res.json();
+}
 
-function onLoad() {
-  let tokens = {
-    access_token: '',
-    refresh_token: '',
-  };
-
-  const params = getHashParams();
-  tokens.access_token = params.access_token;
-  tokens.refresh_token = params.refresh_token;
-
-  if (params.error)
-  {
-    document.getElementById('error-text') = `Login Error ${params.error}`;
-    document.getElementById('main').style.display = "none";
-    return;
+async function setup() {
+  access_token = '';
+  const cookies = parseCookie();
+  access_token = cookies.get('access_token');
+  if (!cookies.has('access_token') || !access_token) {
+    // Redirect to login if not logged in
+    window.location.href = '/login.html';
   }
 
-  document.getElementById('error-text').style.display = "none";
-  document.getElementById('main').style.display = "block";
-
-  // Redirect to login if not logged in
-  if (!debug && (!tokens.access_token || !tokens.refresh_token))
-    window.location.href = '/login';
-  
-  setFields(tokens);
+  createCanvas(getWidth(), getHeight());
+  data = await getData(access_token);
+  console.log(data);
 }
 
-async function obtainNewToken() {
-  const data = {
-    refresh_token: refresh_token,
-  };
-
-  return await fetch('/refresh_token', {
-    body: JSON.stringify(data)
-  });
+function draw() {
+  background(51);
 }
-
-onLoad();
-
-/*document.getElementById("obtain-new-token").addEventListener(*/
-    /*"click",*/
-    /*obtainNewToken,*/
-    /*false*/
-  /*);*/
-
-
