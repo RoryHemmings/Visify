@@ -23,11 +23,7 @@ const redirect_uri = env.REDIRECT_URI; // Your redirect uri
  * @param  {number} length The length of the string
  * @return {string} The generated string
  */
-<<<<<<< HEAD
 var generateRandomString = (length) => {
-=======
-var generateRandomString = function (length) {
->>>>>>> 74c77ade8de954ce1e4ffd12551791644b03ca4f
   var text = '';
   var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
