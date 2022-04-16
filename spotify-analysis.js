@@ -1,6 +1,7 @@
 const SpotifyWebApi = require('spotify-web-api-node')
 const EventEmitter = require('events')
-
+const math = require('mathjs')
+const { column } = require('mathjs')
 async function _getUserTracks(userAccessToken) {
     var spotifyApi = new SpotifyWebApi()
     spotifyApi.setAccessToken(userAccessToken)
@@ -21,6 +22,13 @@ async function _getUserTracks(userAccessToken) {
     return tracks
 }
 
+function _normalize(vector) {
+    // normalizes vector with mean and standard deviation
+    var mean = math.mean(vector)
+    var std = math.std(vector)
+    return vector.map(x => (x - mean) / std)
+}
+
 async function getUserSongList(userAccessToken) {
     // get user tracks[id, name, featrues {danceability, energy, key, loudness, mode, speechiness, acousticness, instrumentalness, liveness, valence, tempo, duration_ms, time_signature}]
     let spotifyApi = new SpotifyWebApi()
@@ -34,7 +42,7 @@ async function getUserSongList(userAccessToken) {
         feature => userSongList.push({
             name: idNameMap[feature.id],
             id: feature.id,
-            feature: [
+            feature: _normalize([
                 feature.danceability,
                 feature.energy,
                 feature.key,
@@ -45,10 +53,10 @@ async function getUserSongList(userAccessToken) {
                 feature.instrumentalness,
                 feature.liveness,
                 feature.valence,
-                feature.tempo,
-                feature.duration_ms,
+                feature.tempo / 100, // compare it with 100
+                (feature.duration_ms / 1000.0) / 60.0, // convert to minutes
                 feature.time_signature
-            ]
+            ])
         })
     )
     return userSongList
