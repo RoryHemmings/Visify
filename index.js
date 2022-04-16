@@ -13,14 +13,6 @@ const cors = require('cors');
 const querystring = require('querystring');
 const cookieParser = require('cookie-parser');
 const env = require('dotenv').config().parsed;
-var SpotifyWebApi = require('spotify-web-api-node');
-
-
-var spotifyApi = new SpotifyWebApi({
-  clientId: env.CLIENT_ID,
-  clientSecret: env.CLIENT_SECRET,
-  redirectUri: env.REDIRECT_URI
-});
 
 const client_id = env.CLIENT_ID; // Your client id
 const client_secret = env.CLIENT_SECRET; // Your secret

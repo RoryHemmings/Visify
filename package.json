@@ -4,7 +4,8 @@
   "description": "Our project for LA Hacks 2022. Spotify visualizer",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js", 
+    "test-spotify-analysis":"node spotify-analysis.js"
   },
   "author": "",
   "license": "ISC",
