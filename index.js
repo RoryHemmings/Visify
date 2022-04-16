@@ -13,7 +13,6 @@ var cors = require('cors');
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
 var env = require('dotenv').config().parsed
-console.log(env)
 
 var client_id = env.CLIENT_ID; // Your client id
 var client_secret = env.CLIENT_SECRET; // Your secret
