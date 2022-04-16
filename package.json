@@ -15,6 +15,7 @@
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "mathjs": "^10.4.3",
+    "particles.js": "^2.0.0",
     "request": "^2.88.2",
     "spotify-web-api-node": "^5.0.2"
   }

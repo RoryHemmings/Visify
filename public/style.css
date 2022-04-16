@@ -1,0 +1,87 @@
+/* Default style from https://shapeshed.com/default-styles-for-css/ */
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+.clear {
+  clear: both;
+}
+
+.right {
+  float: right;
+}
+
+.left {
+  float: left;
+}
+
+h1 {
+  font-size: 2.2em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.8em;
+}
+
+h4 {
+  font-size: 1.6em;
+}
+
+h5 {
+  font-size: 1.4em;
+}
+
+p {
+  font-size: 1.2em;
+}
+
+/* End of default style */
+
+/* Start of code from particles.js (https://www.geeksforgeeks.org/how-to-use-particle-js-in-javascript-project/) */
+.heading {
+  position: absolute;
+  text-align: center;
+  top: 30%;
+  width: 100%;
+}
+.heading h1 {
+  color: white;
+  font-size: 150px;
+}
+.heading h3 {
+  color: white;
+  font-weight: lighter;
+  font-style: italic;
+  font-size: 30px;
+}
+#particles-js {
+  background: black;
+  height: 100vh;
+}
+
+/* End of code from particles.js */
+
+#startButton {
+  font-weight: 300;
+  font-size: 1.7em;
+  color: #a5ffc5;
+  background-color: transparent;
+  border: 2px solid #a5ffc5;
+  padding: 0.2em 0.6em;
+  margin-top: 50px;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 10px;
+}
+#startButton:hover {
+  background-color: #a5ffc5;
+  color: black;
+}
