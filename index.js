@@ -56,13 +56,14 @@ app.get('/login', (req, res) => {
   // your application requests authorization
   var scope = 'user-read-private user-read-email';
   res.redirect('https://accounts.spotify.com/authorize?' +
-    URLSearchParams.toString({
+    new URLSearchParams({
       response_type: 'code',
       client_id: client_id,
       scope: scope,
       redirect_uri: redirect_uri,
       state: state
-    }));
+    }).toString()
+  );
 });
 
 app.get('/callback', (req, res) => {
@@ -75,9 +76,10 @@ app.get('/callback', (req, res) => {
 
   if (state === null || state !== storedState) {
     res.redirect('/#' +
-      URLSearchParams.toString({
+      new URLSearchParams({
         error: 'state_mismatch'
-      }));
+      }).toString()
+    );
   } else {
     res.clearCookie(stateKey);
     var authOptions = {
@@ -125,15 +127,17 @@ app.get('/callback', (req, res) => {
 
         // we can also pass the token to the browser to make requests from there
         res.redirect('/#' +
-          URLSearchParams.toString({
+          new URLSearchParams({
             access_token: access_token,
             refresh_token: refresh_token
-          }));
+          }).toString()
+          );
       } else {
         res.redirect('/#' +
-          URLSearchParams.toString({
+          new URLSearchParams({
             error: 'invalid_token'
-          }));
+          }).toString()
+        );
       }
     });
   }
