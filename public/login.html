@@ -2,24 +2,28 @@
 <html lang="en">
 
 <head>
-	<title>visify</title>
-
-	<!-- Import style.css from root directory -->
-	<link rel="stylesheet" href="./style.css" />
+    <title>visify</title>
+    <link rel="stylesheet" href="./style.css" />
 </head>
 
 <body>
-	<!-- Particles.js div -->
-	<div id="particles-js">
-		<div class="heading">
-			<h1>visify</h1>
-			<h3>your music, visualized</h3>
-		</div>
-	</div>
+    <div id="particles-js">
+        <div class="heading">
+            <h1>visify</h1>
+            <h3>your music, visualized</h3>
+            <button id="startButton">S T A R T</button>
+        </div>
+    </div>
 
-	<!-- Import Particles.js and app.js files -->
-	<script src="/node_modules/particles.js/particles.js"></script>
+    <!-- Import Particles.js and app.js files -->
+    <script src="/node_modules/particles.js/particles.js"></script>
     <script src="/node_modules/particles.js/demo/js/app.js"></script>
+
+    <script>
+        document.getElementById("startButton").onclick = function () {
+            window.location.href = '/login';
+        };
+    </script>
 </body>
 
 </html>
