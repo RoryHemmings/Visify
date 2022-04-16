@@ -3,11 +3,31 @@ const EventEmitter = require('events')
 const math = require('mathjs')
 const { column, sort } = require('mathjs')
 
-async function _getUserTracks(userAccessToken) {
+async function _getUserInfo(userAccessToken) {
     var spotifyApi = new SpotifyWebApi()
     spotifyApi.setAccessToken(userAccessToken)
     let data = await spotifyApi.getMe()
-    let playlistsData = await spotifyApi.getUserPlaylists(data.body.id)
+    return data.body
+}
+/**
+ * 
+ * @param {string} userAccessToken the access token of the user from spotify
+ * @returns {avatar_url: string, username: string} the user's avatar and username
+ */
+async function getUserInfo(userAccessToken) {
+    let data = await _getUserInfo(userAccessToken)
+    return {
+        avatar_url: data.images[0].url,
+        username: data.display_name,
+    }
+}
+
+async function _getUserTracks(userAccessToken) {
+    var spotifyApi = new SpotifyWebApi()
+    spotifyApi.setAccessToken(userAccessToken)
+    let playlistsData = await spotifyApi.getUserPlaylists(
+        _getUserInfo(userAccessToken).id
+    )
     var trackEmitter = new EventEmitter()
 
     var tracks = []
@@ -92,18 +112,19 @@ async function getUserNodeLinkData(accessToken) {
     let userSongList = await getUserSongList(accessToken)
     nodes = []
     links = []
-    for(let i = 0; i < userSongList.length; i++) {
-        nodes.push({id: userSongList[i].name, group: 1})
+    for (let i = 0; i < userSongList.length; i++) {
+        nodes.push({ id: userSongList[i].name, group: 1 })
         let sorted = [...userSongList]
         sorted.sort((a, b) => math.distance(userSongList[i].feature, a.feature) - math.distance(userSongList[i].feature, b.feature))
         //console.log(sorted.map(v=>math.distance(v.feature, userSongList[i].feature)),'\n',userSongList[i].name)
 
-       links.push({source: userSongList[i].name, target: sorted[1].name, value: 1/math.distance(userSongList[i].feature, sorted[1].feature)})
-       links.push({source: userSongList[i].name, target: sorted[2].name, value: 1/math.distance(userSongList[i].feature, sorted[2].feature)})
+        links.push({ source: userSongList[i].name, target: sorted[1].name, value: 1 / math.distance(userSongList[i].feature, sorted[1].feature) })
+        links.push({ source: userSongList[i].name, target: sorted[2].name, value: 1 / math.distance(userSongList[i].feature, sorted[2].feature) })
     }
-    return {nodes, links}
+    return { nodes, links }
 }
 
 exports.getUserMatrix = getUserMatrix
 exports.getUserSongList = getUserSongList
 exports.getUserNodeLinkData = getUserNodeLinkData
+exports.getUserInfo = getUserInfo
