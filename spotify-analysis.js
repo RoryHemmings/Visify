@@ -1,29 +1,41 @@
 const SpotifyWebApi = require('spotify-web-api-node')
 const EventEmitter = require('events')
-var spotifyApi = new SpotifyWebApi()
 
-
-async function getUserMatrix(userAccessToken) {
+async function _getUserTracks(userAccessToken) {
+    var spotifyApi = new SpotifyWebApi()
     spotifyApi.setAccessToken(userAccessToken)
-    
     let data = await spotifyApi.getMe()
     let playlistsData = await spotifyApi.getUserPlaylists(data.body.id)
-    var vectorEmitter = new EventEmitter()
+    var trackEmitter = new EventEmitter()
 
-    var userTasteMatrix = []
-    vectorEmitter.on('vector', (vector) => {
-        console.log(vector)
-        userTasteMatrix.push(vector)
+    var tracks = []
+    trackEmitter.on('track', (vector) => {
+        tracks.push(vector)
     })
     await Promise.all(
         playlistsData.body.items.map(async (playlist) => {
-
             let playlistInfo = await spotifyApi.getPlaylist(playlist.id)
+            playlistInfo.body.tracks.items.forEach(track => trackEmitter.emit('track', track))
+        })
+    )
+    return tracks
+}
 
-            let features = await spotifyApi.getAudioFeaturesForTracks(playlistInfo.body.tracks.items.map(track => track.track.id))
-            // extract into a vector
-            let featuresVector = features.body.audio_features.map(
-                feature => [feature.danceability,
+async function getUserSongList(userAccessToken) {
+    // get user tracks[id, name, featrues {danceability, energy, key, loudness, mode, speechiness, acousticness, instrumentalness, liveness, valence, tempo, duration_ms, time_signature}]
+    let spotifyApi = new SpotifyWebApi()
+    spotifyApi.setAccessToken(userAccessToken)
+    let tracks = await _getUserTracks(userAccessToken)
+    var idNameMap = {}
+    tracks.forEach(track => idNameMap[track.track.id] = track.track.name)
+    let features = await spotifyApi.getAudioFeaturesForTracks(tracks.map(track => track.track.id))
+    var userSongList = []
+    let featuresVector = features.body.audio_features.forEach(
+        feature => userSongList.push({
+            name: idNameMap[feature.id],
+            id: feature.id,
+            feature: [
+                feature.danceability,
                 feature.energy,
                 feature.key,
                 feature.loudness,
@@ -35,11 +47,16 @@ async function getUserMatrix(userAccessToken) {
                 feature.valence,
                 feature.tempo,
                 feature.duration_ms,
-                feature.time_signature]
-            )
-            featuresVector.forEach(vector => vectorEmitter.emit('vector', vector))
+                feature.time_signature
+            ]
         })
     )
+    return userSongList
+}
 
-    return userTasteMatrix
+async function getUserMatrix(userAccessToken) {
+    let userSongList = await getUserSongList(userAccessToken)
+    let userSongListMatrix = []
+    userSongList.forEach(song => userSongListMatrix.push(song.feature))
+    return userSongListMatrix
 }
