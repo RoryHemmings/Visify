@@ -80,7 +80,7 @@ function onLoad() {
   document.getElementById('main').style.display = "block";
 
   // Redirect to login if not logged in
-  if (!debug && !tokens.access_token || !tokens.refresh_token)
+  if (!debug && (!tokens.access_token || !tokens.refresh_token))
     window.location.href = '/login';
   
   setFields(tokens);
