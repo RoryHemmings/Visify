@@ -54,9 +54,9 @@ async function setup() {
   access_token = '';
   const cookies = parseCookie();
   access_token = cookies.get('access_token');
-  if (!access_token) {
+  if (!cookies.has('access_token') || !access_token) {
     // Redirect to login if not logged in
-    window.location.href = '/login';
+    window.location.href = '/login.html';
   }
 
   createCanvas(getWidth(), getHeight());
