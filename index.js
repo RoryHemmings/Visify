@@ -45,12 +45,7 @@ app.use(express.static(__dirname + '/public'))
   .use(cors())
   .use(cookieParser());
 
-<<<<<<< HEAD
 app.get('/login', (req, res) => {
-=======
-app.get('/login', function (req, res) {
->>>>>>> 74c77ade8de954ce1e4ffd12551791644b03ca4f
-
   var state = generateRandomString(16);
   res.cookie(stateKey, state);
 
@@ -66,12 +61,7 @@ app.get('/login', function (req, res) {
     }));
 });
 
-<<<<<<< HEAD
 app.get('/callback', (req, res) => {
-=======
-app.get('/callback', function (req, res) {
->>>>>>> 74c77ade8de954ce1e4ffd12551791644b03ca4f
-
   // your application requests refresh and access tokens
   // after checking the state parameter
 
@@ -99,11 +89,7 @@ app.get('/callback', function (req, res) {
       json: true
     };
 
-<<<<<<< HEAD
     request.post(authOptions, (error, response, body) => {
-=======
-    request.post(authOptions, function (error, response, body) {
->>>>>>> 74c77ade8de954ce1e4ffd12551791644b03ca4f
       if (!error && response.statusCode === 200) {
 
         var access_token = body.access_token,
@@ -117,11 +103,7 @@ app.get('/callback', function (req, res) {
         };
 
         // use the access token to access the Spotify Web API
-<<<<<<< HEAD
         request.get(options, (error, response, body) => {
-=======
-        request.get(options, function (error, response, body) {
->>>>>>> 74c77ade8de954ce1e4ffd12551791644b03ca4f
           console.log(body);
         });
 
@@ -141,12 +123,7 @@ app.get('/callback', function (req, res) {
   }
 });
 
-<<<<<<< HEAD
 app.get('/refresh_token', (req, res) => {
-=======
-app.get('/refresh_token', function (req, res) {
->>>>>>> 74c77ade8de954ce1e4ffd12551791644b03ca4f
-
   // requesting access token from refresh token
   var refresh_token = req.query.refresh_token;
   var authOptions = {
@@ -159,11 +136,7 @@ app.get('/refresh_token', function (req, res) {
     json: true
   };
 
-<<<<<<< HEAD
   request.post(authOptions, (error, response, body) => {
-=======
-  request.post(authOptions, function (error, response, body) {
->>>>>>> 74c77ade8de954ce1e4ffd12551791644b03ca4f
     if (!error && response.statusCode === 200) {
       var access_token = body.access_token;
       res.send({
