@@ -12,7 +12,15 @@ const request = require('request'); // "Request" library
 const cors = require('cors');
 const querystring = require('querystring');
 const cookieParser = require('cookie-parser');
-const env = require('dotenv').config().parsed
+const env = require('dotenv').config().parsed;
+var SpotifyWebApi = require('spotify-web-api-node');
+
+
+var spotifyApi = new SpotifyWebApi({
+  clientId: env.CLIENT_ID,
+  clientSecret: env.CLIENT_SECRET,
+  redirectUri: env.REDIRECT_URI
+});
 
 const client_id = env.CLIENT_ID; // Your client id
 const client_secret = env.CLIENT_SECRET; // Your secret
@@ -48,7 +56,7 @@ app.get('/login', (req, res) => {
   // your application requests authorization
   var scope = 'user-read-private user-read-email';
   res.redirect('https://accounts.spotify.com/authorize?' +
-    URLSearchParams.stringify({
+    URLSearchParams.toString({
       response_type: 'code',
       client_id: client_id,
       scope: scope,
@@ -67,7 +75,7 @@ app.get('/callback', (req, res) => {
 
   if (state === null || state !== storedState) {
     res.redirect('/#' +
-      URLSearchParams.stringify({
+      URLSearchParams.toString({
         error: 'state_mismatch'
       }));
   } else {
@@ -91,7 +99,19 @@ app.get('/callback', (req, res) => {
         var access_token = body.access_token,
           refresh_token = body.refresh_token;
 
-	console.log(access_token + " " + refresh_token);
+        console.log(access_token + " " + refresh_token);
+        // add test
+        spotifyApi.setAccessToken(access_token);
+
+        
+        spotifyApi.getMe()
+          .then(function (data) {
+            console.log('Some information about the authenticated user', data.body);
+          }, function (err) {
+            console.log('Something went wrong!', err);
+          });
+        
+
         var options = {
           url: 'https://api.spotify.com/v1/me',
           headers: { 'Authorization': 'Bearer ' + access_token },
@@ -105,13 +125,13 @@ app.get('/callback', (req, res) => {
 
         // we can also pass the token to the browser to make requests from there
         res.redirect('/#' +
-          URLSearchParams.stringify({
+          URLSearchParams.toString({
             access_token: access_token,
             refresh_token: refresh_token
           }));
       } else {
         res.redirect('/#' +
-          URLSearchParams.stringify({
+          URLSearchParams.toString({
             error: 'invalid_token'
           }));
       }
