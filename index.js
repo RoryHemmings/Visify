@@ -42,6 +42,9 @@ app.use(express.static(__dirname + '/public'))
   .use(cors())
   .use(cookieParser());
 
+// Connect API services
+app.use('/api', require('./api'));
+
 app.get('/login', (req, res) => {
   var state = generateRandomString(16);
   res.cookie(stateKey, state);
