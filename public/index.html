@@ -1,36 +1,44 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>visify</title>
-    <link rel="stylesheet" href="./style.css" />
-    <style type="text/css">
-      #login,
-      #loggedin {
-        display: none;
-      }
-      .text-overflow {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        width: 500px;
-      }
-    </style>
-  </head>
 
-  <body onload="onload()">
+<head>
+  <title>visify</title>
+  <link rel="stylesheet" href="./style.css" />
+  <style type="text/css">
+    #login,
+    #loggedin {
+      display: none;
+    }
+
+    .text-overflow {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 500px;
+    }
+  </style>
+</head>
+
+<body onload="onload()">
   <header>
     <h1>visify</h1>
     <span id="user-info"></span>
   </header>
 
-    <div id="3d-graph"></div>
-    <div id="main" class="container">
-      <p id="error-text"></p>
-      </div>
-    </div>
+  <div id="3d-graph"></div>
+  <div id="main" class="container">
+    <p id="error-text"></p>
+  </div>
+  </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.4.3/math.js" integrity="sha512-wE1ES3zJZKbOz0l0Fj15CgIMQe+81FiGsF6DL7gIeB5sjQ9BHUbTV+FiZIc/6GDL3MlMbiZ+U45Bsi5x/2MKGg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="//unpkg.com/3d-force-graph"></script>
-    <script src="app.js"></script>
-  </body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.4.3/math.js"
+    integrity="sha512-wE1ES3zJZKbOz0l0Fj15CgIMQe+81FiGsF6DL7gIeB5sjQ9BHUbTV+FiZIc/6GDL3MlMbiZ+U45Bsi5x/2MKGg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="//unpkg.com/three"></script>
+  <script src="//unpkg.com/three-spritetext"></script>
+  <script src="//unpkg.com/3d-force-graph"></script>
+
+  <script src="app.js"></script>
+</body>
+
 </html>

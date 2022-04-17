@@ -40,7 +40,7 @@ function convertRawSongData(data) {
     //console.log(sorted.map(v=>math.distance(v.feature, data[i].feature)),'\n',data[i].name)
     var maxFeature = math.max(data[i].feature)
 
-    nodes.push({ id: data[i].name, group: parseInt(13*(data[i].feature - minEnergy) / (maxEnergy - minEnergy)) })
+    nodes.push({ id: data[i].name, group: parseInt(13 * (data[i].feature - minEnergy) / (maxEnergy - minEnergy)) })
     // console.log('Features: ', data[i].feature)
     // console.log('Group: ', data[i].feature.filter(x => (x > meanHeat)))
 
@@ -102,4 +102,11 @@ async function onload() {
     .nodeAutoColorBy('group')
     .linkDirectionalParticles("value")
     .linkDirectionalParticleSpeed(d => d.value * 0.001)
+    .nodeThreeObject(node => {
+      const sprite = new SpriteText(node.id);
+      sprite.material.depthWrite = false; // make sprite background transparent
+      sprite.color = node.color;
+      sprite.textHeight = 8;
+      return sprite;
+    });
 }
