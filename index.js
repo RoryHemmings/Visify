@@ -100,7 +100,7 @@ app.get('/callback', (req, res) => {
         console.log(`Success Login: ${access_token}, ${refresh_token}`);
 
         // we can also pass the token to the browser to make requests from there
-        res.cookie['access_token'] = access_token;
+        res.cookie('access_token', access_token)
         res.redirect('/');
       } else {
         res.redirect('/login.html');
