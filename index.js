@@ -59,7 +59,7 @@ app.get('/login', (req, res) => {
       redirect_uri: redirect_uri,
       state: state
     }).toString();
-  console.log(redirect_url);
+
   res.redirect(redirect_url);
 });
 

@@ -111,7 +111,7 @@ async function getUserSongList(userAccessToken) {
                         feature.instrumentalness,
                         feature.liveness,
                         feature.valence,
-                        feature.tempo , // compare it with 100
+                        feature.tempo/100,
                         (feature.duration_ms / 1000.0) / 60.0, // convert to minutes
                         feature.time_signature
                     ])

@@ -31,16 +31,14 @@ function getHeight() {
 function convertRawSongData(data) {
   nodes = []
   links = []
-  meanHeat = 0
-  meanHeat = data.map(song => song.feature.reduce((a, b) => a + b)).reduce((a,b)=>a+b) / (13 * data.length)
-  console.log('meanHeat: ', meanHeat)
   for (let i = 0; i < data.length; i++) {
 
     let sorted = [...data]
     sorted.sort((a, b) => math.distance(data[i].feature, a.feature) - math.distance(data[i].feature, b.feature))
     //console.log(sorted.map(v=>math.distance(v.feature, data[i].feature)),'\n',data[i].name)
+    var maxFeature = math.max(data[i].feature)
 
-    nodes.push({ id: data[i].name, group: data[i].feature.filter(x => (x > meanHeat)).length})
+    nodes.push({ id: data[i].name, group: data[i].feature.indexOf(maxFeature) })
     // console.log('Features: ', data[i].feature)
     // console.log('Group: ', data[i].feature.filter(x => (x > meanHeat)))
 
