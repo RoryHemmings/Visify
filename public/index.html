@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Spotify Visualization</title>
-    <link
-      rel="stylesheet"
-      href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"
-    />
+    <title>visify</title>
+    <link rel="stylesheet" href="./style.css" />
     <style type="text/css">
       #login,
       #loggedin {
@@ -20,7 +17,12 @@
     </style>
   </head>
 
-  <body onload="onload()">
+  <body onload="">
+  <header>
+    <h1>visify</h1>
+    <span class="username">firstName lastName</span>
+  </header>
+
     <div id="3d-graph"></div>
     <div id="main" class="container">
       <p id="error-text"></p>
