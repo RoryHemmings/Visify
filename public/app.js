@@ -94,13 +94,14 @@ async function onload() {
   console.log(res);
   username = res.userInfo.username;
   console.log(username);
-
-  data = convertRawSongData(res.data);
-  graph = ForceGraph3D()
-    (document.getElementById('3d-graph'))
-    .graphData(data)
-    .nodeLabel('id')
-    .nodeAutoColorBy('group')
-    .linkDirectionalParticles("value")
-    .linkDirectionalParticleSpeed(d => d.value * 0.001);
 }
+
+fetch('/datasets/dat2.json').then(res=>res.json()).then(data => {
+  graph = ForceGraph3D()
+  (document.getElementById('3d-graph'))
+  .graphData(data)
+  .nodeLabel('id')
+  .nodeAutoColorBy('group')
+  .linkDirectionalParticles("value")
+  .linkDirectionalParticleSpeed(d => d.value * 0.001);
+})
