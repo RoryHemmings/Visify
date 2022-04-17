@@ -41,7 +41,7 @@ function convertRawSongData(data) {
     //console.log(sorted.map(v=>math.distance(v.feature, data[i].feature)),'\n',data[i].name)
 
     nodes.push({ id: data[i].name, group: sorted.filter(x => x > meanHeat).length })
-    for (let j = 1; j < sorted.length / 3; j++) {
+    for (let j = 1; j < 5; j++) {
       links.push({ source: data[i].name, target: sorted[j].name })
     }
   }
