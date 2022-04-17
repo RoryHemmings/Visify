@@ -6,9 +6,19 @@ const { column, sort } = require('mathjs')
 async function _getUserInfo(userAccessToken) {
     var spotifyApi = new SpotifyWebApi()
     spotifyApi.setAccessToken(userAccessToken)
+    //console.log('getting user data')
     let data = await spotifyApi.getMe()
+    //console.log(`${data.body.display_name}'s id is ${data.body.id}`)
     return data.body
 }
+
+async function getUserData(userAccessToken) {
+    let userInfo = await getUserInfo(userAccessToken)
+    let data = await getUserSongList(userAccessToken)
+    console.log({userInfo, data})
+    return {userInfo, data}
+}
+
 /**
  * 
  * @param {string} userAccessToken the access token of the user from spotify
@@ -134,3 +144,4 @@ exports.getUserMatrix = getUserMatrix
 exports.getUserSongList = getUserSongList
 exports.getUserNodeLinkData = getUserNodeLinkData
 exports.getUserInfo = getUserInfo
+exports.getUserData = getUserData
