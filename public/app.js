@@ -1,3 +1,4 @@
+import ForceGraph3D from '3d-force-graph';
 const debug = true;
 
 function getWidth() {
@@ -19,14 +20,68 @@ function getHeight() {
     document.documentElement.clientHeight
   );
 }
-
+let x = 25;
 function setup() {
+  //frameRate(10);
   console.log(getWidth());
   createCanvas(getWidth(),getHeight());
 }
 
 function draw() {
   background(51);
+  fill(153, 204, 204);
+  circle(30, 30, 20);
+  circle(60, 60, 20);
+  line(30, 30, 60, 60);
+
+  strokeWeight(5);
+  stroke('purple');
+point(84, 91);
+point(68, 19);
+point(21, 17);
+point(32, 91);
+strokeWeight(1);
+stroke('black');
+  noFill();
+beginShape();
+curveVertex(84, 91);
+curveVertex(84, 91);
+curveVertex(68, 19);
+curveVertex(21, 17);
+curveVertex(32, 91);
+curveVertex(32, 91);
+endShape();
+
+fill(153, 204, 204);
+stroke('blue');
+circle(x, 100, 30);
+x = x + 1;
+
+noFill();
+
+point(100, 150);
+point(150, 150);
+point(125, 150);
+point(125, 250);
+point(100, 250);
+point(150, 250);
+beginShape();
+curveVertex(100, 150);
+curveVertex(100, 150);
+curveVertex(150, 150);
+curveVertex(150, 150);
+curveVertex(125, 150);
+curveVertex(125, 150);
+curveVertex(125, 250);
+curveVertex(125, 250);
+curveVertex(100, 250);
+curveVertex(100, 250);
+curveVertex(150, 250);
+curveVertex(150, 250);
+endShape();
+
+//get source and target vals
+//curveVertex
 }
 
 /**
