@@ -112,8 +112,8 @@ async function getUserSongList(userAccessToken) {
                         feature.liveness,
                         feature.valence,
                         feature.tempo/100,
-                        (feature.duration_ms / 1000.0) / 60.0, // convert to minutes
-                        feature.time_signature
+                        // (feature.duration_ms / 1000.0) / 60.0, // convert to minutes
+                        // feature.time_signature
                     ])
                 })
             }
