@@ -87,7 +87,8 @@ async function onload() {
   }
 
   res = await getData(access_token);
-  username = res.user_info.username;
+  console.log(res);
+  username = res.userInfo.username;
   console.log(username);
 
   data = convertRawSongData(res.data);
