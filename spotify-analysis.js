@@ -17,7 +17,7 @@ async function _getUserInfo(userAccessToken) {
 async function getUserInfo(userAccessToken) {
     let data = await _getUserInfo(userAccessToken)
     return {
-        avatar_url: data.images[0].url,
+        avatar_url: (data.images.length < 1) ? null : data.images[0].url,
         username: data.display_name,
     }
 }
@@ -123,6 +123,12 @@ async function getUserNodeLinkData(accessToken) {
     }
     return { nodes, links }
 }
+
+// ;(async () => {
+//     let accessToken = 'BQBwIfUnZ0VStjLmkisw3u2gL8ZwAvLKh__PS3CrCyqyNY-9Kzh4Qgz0pK0hYyvRByIRrCBo8rvHrKEtQIXtGZwrfIVY9jzshgeJXOOl5vdrej4-V5COjIaP3duXxosccCybC5_oPmtk6TeIfQpxzqLtywH0kMc'
+//     let nodesAndLinks = await getUserNodeLinkData(accessToken)
+//     process.stdout.write(JSON.stringify(nodesAndLinks))
+// })()
 
 exports.getUserMatrix = getUserMatrix
 exports.getUserSongList = getUserSongList
