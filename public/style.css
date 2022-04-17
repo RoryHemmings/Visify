@@ -92,7 +92,7 @@ p {
   background-color: #caa5f7;
   color: black;
 }
-canvas {
+.scene-container {
   z-index: 10;
 }
 header {
