@@ -6,7 +6,7 @@ body {
   border: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    background-color: #000017;
+    background-color: black;
     transition: all ease-in-out 0.2s;
 }
 
@@ -86,12 +86,15 @@ p {
   display: inline-block;
   cursor: pointer;
   border-radius: 10px;
+  transition: all ease-in-out 0.2s;
 }
 #startButton:hover {
   background-color: #caa5f7;
   color: black;
 }
-
+canvas {
+  z-index: 10;
+}
 header {
   display: flex;
   align-items: center;
