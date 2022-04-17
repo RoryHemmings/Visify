@@ -29,6 +29,22 @@ function getHeight() {
  * @param {raw song data} data 
  */
 function convertRawSongData(data) {
+  nodes = []
+  links = []
+  meanHeat = 0
+  meanHeat = data.map(d => data.map((v) => 1 / (math.distance(v.feature, d.feature) + 1)).reduce((a, b) => a + b)).reduce((a, b) => a + b) / (data.length * data.length)
+
+  for (let i = 0; i < data.length; i++) {
+
+    let sorted = [...data]
+    sorted.sort((a, b) => math.distance(data[i].feature, a.feature) - math.distance(data[i].feature, b.feature))
+    //console.log(sorted.map(v=>math.distance(v.feature, data[i].feature)),'\n',data[i].name)
+
+    nodes.push({ id: data[i].name, group: sorted.filter(x => x > meanHeat).length })
+    links.push({ source: data[i].name, target: sorted[1].name })
+    links.push({ source: data[i].name, target: sorted[2].name })
+  }
+  return {nodes, links}
 
 }
 
