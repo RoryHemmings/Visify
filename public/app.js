@@ -1,5 +1,3 @@
-const { sort } = require("mathjs");
-
 let access_token = '';
 let data = {};
 let graph;
@@ -27,8 +25,8 @@ function getHeight() {
 /**
  * Convert raw song data returned from our server into
  * data that is readable by the graph display framework
- * 
- * @param {raw song data} data 
+ *
+ * @param {raw song data} data
  */
 function convertRawSongData(data) {
   nodes = []
@@ -43,7 +41,6 @@ function convertRawSongData(data) {
     //console.log(sorted.map(v=>math.distance(v.feature, data[i].feature)),'\n',data[i].name)
 
     nodes.push({ id: data[i].name, group: data[i].feature.filter(x => (x > meanHeat)).length})
-
     for (let j = 1; j < 5; j++) {
       links.push({ source: data[i].name, target: sorted[j].name })
     }
@@ -94,14 +91,20 @@ async function onload() {
   console.log(res);
   username = res.userInfo.username;
   console.log(username);
-}
 
-fetch('/datasets/dat2.json').then(res=>res.json()).then(data => {
+  data = convertRawSongData(res.data);
   graph = ForceGraph3D()
-  (document.getElementById('3d-graph'))
-  .graphData(data)
-  .nodeLabel('id')
-  .nodeAutoColorBy('group')
-  .linkDirectionalParticles("value")
-  .linkDirectionalParticleSpeed(d => d.value * 0.001);
-})
+    (document.getElementById('3d-graph'))
+    .graphData(data)
+    .nodeLabel('id')
+    .nodeAutoColorBy('group')
+    .linkDirectionalParticles("value")
+    .linkDirectionalParticleSpeed(d => d.value * 0.001)
+    .nodeThreeObject(node => {
+      const sprite = new SpriteText(node.id);
+      sprite.material.depthWrite = false;
+      sprite.color = node.color;
+      sprite.textHeight = 8;
+      return sprite;
+    })
+}
