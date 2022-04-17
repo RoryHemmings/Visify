@@ -92,11 +92,10 @@ async function onload() {
     // Redirect to login if not logged in
     window.location.href = '/login.html';
   }
+console.log("test");
 
   res = await getData(access_token);
-  console.log(res);
   username = res.userInfo.username;
-  console.log(username);
 
   data = convertRawSongData(res.data);
   graph = ForceGraph3D()
@@ -105,12 +104,5 @@ async function onload() {
     .nodeLabel('id')
     .nodeAutoColorBy('group')
     .linkDirectionalParticles("value")
-    .linkDirectionalParticleSpeed(d => d.value * 0.001)
-    .nodeThreeObject(node => {
-      const sprite = new SpriteText(node.id);
-      sprite.material.depthWrite = false;
-      sprite.color = node.color;
-      sprite.textHeight = 8;
-      return sprite;
-    })
+    .linkDirectionalParticleSpeed(d => d.value * 0.001);
 }
