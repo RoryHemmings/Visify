@@ -31,8 +31,9 @@ function getHeight() {
 function convertRawSongData(data) {
   nodes = []
   links = []
-  let maxEnergy = data.map(d => d.feature[2]).reduce((a, b) => Math.max(a, b))
-  let minEnergy = data.map(d => d.feature[2]).reduce((a, b) => Math.min(a, b))
+  const color_column = 4;
+  let maxEnergy = data.map(d => d.feature[color_column]).reduce((a, b) => Math.max(a, b))
+  let minEnergy = data.map(d => d.feature[color_column]).reduce((a, b) => Math.min(a, b))
   for (let i = 0; i < data.length; i++) {
 
     let sorted = [...data]
@@ -40,7 +41,7 @@ function convertRawSongData(data) {
     //console.log(sorted.map(v=>math.distance(v.feature, data[i].feature)),'\n',data[i].name)
     var maxFeature = math.max(data[i].feature)
 
-    nodes.push({ id: data[i].name, group: parseInt(13 * (data[i].feature - minEnergy) / (maxEnergy - minEnergy)) })
+    nodes.push({ id: data[i].name, group: parseInt(13*(data[i].feature[color_column] - minEnergy) / (maxEnergy - minEnergy)) })
     // console.log('Features: ', data[i].feature)
     // console.log('Group: ', data[i].feature.filter(x => (x > meanHeat)))
 
