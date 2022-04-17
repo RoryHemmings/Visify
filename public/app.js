@@ -110,4 +110,5 @@ async function onload() {
       sprite.textHeight = 8;
       return sprite;
     });
+  graph.d3Force('charge').strength(-100);
 }
