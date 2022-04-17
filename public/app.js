@@ -41,8 +41,8 @@ function convertRawSongData(data) {
     //console.log(sorted.map(v=>math.distance(v.feature, data[i].feature)),'\n',data[i].name)
 
     nodes.push({ id: data[i].name, group: data[i].feature.filter(x => (x > meanHeat)).length})
-    console.log('Features: ', data[i].feature)
-    console.log('Group: ', data[i].feature.filter(x => (x > meanHeat)))
+    // console.log('Features: ', data[i].feature)
+    // console.log('Group: ', data[i].feature.filter(x => (x > meanHeat)))
 
     for (let j = 1; j < 5; j++) {
       links.push({ source: data[i].name, target: sorted[j].name })
@@ -89,10 +89,10 @@ async function onload() {
     // Redirect to login if not logged in
     window.location.href = '/login.html';
   }
-console.log("test");
 
   res = await getData(access_token);
   username = res.userInfo.username;
+  document.getElementById("user-info").innerHTML = username;
 
   data = convertRawSongData(res.data);
   graph = ForceGraph3D()
@@ -101,5 +101,5 @@ console.log("test");
     .nodeLabel('id')
     .nodeAutoColorBy('group')
     .linkDirectionalParticles("value")
-    .linkDirectionalParticleSpeed(d => d.value * 0.001);
+    .linkDirectionalParticleSpeed(d => d.value * 0.001)
 }

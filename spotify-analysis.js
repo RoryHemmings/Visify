@@ -38,7 +38,7 @@ async function _getUserTracks(userAccessToken) {
     let playlistsData = await spotifyApi.getUserPlaylists(
         (await _getUserInfo(userAccessToken)).id
     )
-    console.log(playlistsData.body)
+    // console.log(playlistsData.body)
     var trackEmitter = new EventEmitter()
 
     var tracks = []
