@@ -98,8 +98,7 @@ app.get('/callback', (req, res) => {
           refresh_token = body.refresh_token;
 
         console.log(access_token + " " + refresh_token);
-        // add test
-        spotifyApi.setAccessToken(access_token);
+
 
         
         spotifyApi.getMe()
