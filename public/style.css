@@ -86,3 +86,19 @@ p {
   background-color: #a5ffc5;
   color: black;
 }
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  color: white;
+  background-color: black;
+  font-size: 1.5em;
+}
+
+.username {
+  text-align: right;
+  font-size: 0.8em;
+  font-weight: lighter;
+}
