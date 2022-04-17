@@ -33,7 +33,7 @@ function convertRawSongData(data) {
   links = []
   meanHeat = 0
   meanHeat = data.map(d => data.map((v) => 1 / (math.distance(v.feature, d.feature) + 1)).reduce((a, b) => a + b)).reduce((a, b) => a + b) / (data.length * data.length)
-
+  console.log('meanHeat: ', meanHeat)
   for (let i = 0; i < data.length; i++) {
 
     let sorted = [...data]
@@ -41,10 +41,11 @@ function convertRawSongData(data) {
     //console.log(sorted.map(v=>math.distance(v.feature, data[i].feature)),'\n',data[i].name)
 
     nodes.push({ id: data[i].name, group: sorted.filter(x => x > meanHeat).length })
-    links.push({ source: data[i].name, target: sorted[1].name })
-    links.push({ source: data[i].name, target: sorted[2].name })
+    for (let j = 1; j < sorted.length / 3; j++) {
+      links.push({ source: data[i].name, target: sorted[j].name })
+    }
   }
-  return {nodes, links}
+  return { nodes, links }
 
 }
 
