@@ -22,6 +22,16 @@ function getHeight() {
   );
 }
 
+/**
+ * Convert raw song data returned from our server into
+ * data that is readable by the graph display framework
+ * 
+ * @param {raw song data} data 
+ */
+function convertRawSongData(data) {
+
+}
+
 function getHashParams() {
   let hashParams = {};
   let e,
@@ -60,9 +70,11 @@ async function onload() {
     window.location.href = '/login.html';
   }
 
-  data = await getData(access_token);
-  console.log(data);
+  res = await getData(access_token);
+  username = res.user_info.username;
+  console.log(username);
 
+  data = convertRawSongData(res.data);
   graph = ForceGraph3D()
     (document.getElementById('3d-graph'))
     .graphData(data)
