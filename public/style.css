@@ -70,6 +70,7 @@ p {
 /* End of code from particles.js */
 
 #startButton {
+  text-decoration: none;
   font-weight: 300;
   font-size: 1.7em;
   color: #a5ffc5;
