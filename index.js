@@ -98,17 +98,7 @@ app.get('/callback', (req, res) => {
           refresh_token = body.refresh_token;
 
         console.log(access_token + " " + refresh_token);
-
-
         
-        spotifyApi.getMe()
-          .then(function (data) {
-            console.log('Some information about the authenticated user', data.body);
-          }, function (err) {
-            console.log('Something went wrong!', err);
-          });
-        
-
         var options = {
           url: 'https://api.spotify.com/v1/me',
           headers: { 'Authorization': 'Bearer ' + access_token },
