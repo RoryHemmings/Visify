@@ -15,7 +15,6 @@ async function _getUserInfo(userAccessToken) {
 async function getUserData(userAccessToken) {
     let userInfo = await getUserInfo(userAccessToken)
     let data = await getUserSongList(userAccessToken)
-    console.log({ userInfo, data })
     return { userInfo, data }
 }
 
@@ -141,9 +140,9 @@ async function getUserNodeLinkData(accessToken) {
 }
 
 // ; (async () => {
-//     let accessToken = 'BQAy_Yqd22_UnKHF6Q2KvMFhZBqplEFKWRE8wVAdKO6tQjlJSabt9_fWmJHcrUlvVIiTq-9Zbuk1urKqJn6sP0RCGAvkjexNls8OlO1nPAwgRuHGWdKybPSRvTV15lUnHgbqEFav7BOpqrviNcKe6_KJjSAfs_E90zsZ'
-//     let nodesAndLinks = await getUserMatrix(accessToken)
-//     process.stdout.write(JSON.stringify(nodesAndLinks))
+//     let accessToken = 'BQB9dc1vnrsf3x-XtmhLF-frSbhFzsQs8KfTr0yrUaIx3tTx9bJj1eDnAAhvyb4pD78ZksNBQWy4bS4zGfOkcEZfvSpnQkRzhy3EJc8xeNVjySwiv9vBtf4w27TcmiSaOeHb8NMd8-zJ6qfm559G7Bx6_jvDYd3NRI9L2MrCoghXaXv2a0Ko66lDM2d46KyX9Xy1CjdCruyJbpI'
+//     let nodes = await getUserData(accessToken)
+//     console.log(util.inspect(nodes.data, false, 10))
 // })()
 
 exports.getUserMatrix = getUserMatrix
