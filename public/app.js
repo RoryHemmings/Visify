@@ -32,10 +32,7 @@ function convertRawSongData(data) {
   nodes = []
   links = []
   meanHeat = 0
-  meanHeat = data.map(d => data.map(
-    (v) => 1 / (math.distance(v.feature, d.feature) + 1))
-    .reduce((a, b) => a + b))
-    .reduce((a, b) => a + b) / (data.length * data.length)
+  meanHeat = data.map(song => song.feature.reduce((a, b) => a + b)).reduce((a,b)=>a+b) / (song.feature.length * data.length)
   console.log('meanHeat: ', meanHeat)
   for (let i = 0; i < data.length; i++) {
 
