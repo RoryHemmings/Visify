@@ -1,5 +1,6 @@
 /* Default style from https://shapeshed.com/default-styles-for-css/ */
-html,body {
+html,
+body {
   margin: 0;
   padding: 0;
   border: 0;
@@ -27,7 +28,8 @@ h1 {
 }
 
 h2 {
-  font-size: 2em; }
+  font-size: 2em;
+}
 
 h3 {
   font-size: 1.8em;
@@ -51,12 +53,13 @@ p {
 .heading {
   position: absolute;
   text-align: center;
-  top: 30%;
+  top: 20%;
   width: 100%;
 }
 .heading h1 {
   color: white;
   font-size: 150px;
+  margin-bottom: 10px;
 }
 .heading h3 {
   color: white;
@@ -75,9 +78,9 @@ p {
   text-decoration: none;
   font-weight: 300;
   font-size: 1.7em;
-  color: #a5ffc5;
+  color: #caa5f7;
   background-color: transparent;
-  border: 2px solid #a5ffc5;
+  border: 2px solid #caa5f7;
   padding: 0.2em 0.6em;
   margin-top: 50px;
   display: inline-block;
@@ -85,7 +88,7 @@ p {
   border-radius: 10px;
 }
 #startButton:hover {
-  background-color: #a5ffc5;
+  background-color: #caa5f7;
   color: black;
 }
 
