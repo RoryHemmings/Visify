@@ -1,5 +1,3 @@
-const { sort } = require("mathjs");
-
 let access_token = '';
 let data = {};
 let graph;
@@ -27,8 +25,8 @@ function getHeight() {
 /**
  * Convert raw song data returned from our server into
  * data that is readable by the graph display framework
- * 
- * @param {raw song data} data 
+ *
+ * @param {raw song data} data
  */
 function convertRawSongData(data) {
   nodes = []
@@ -99,14 +97,20 @@ async function onload() {
   console.log(res);
   username = res.userInfo.username;
   console.log(username);
-}
 
-fetch('/datasets/dat2.json').then(res=>res.json()).then(data => {
+  data = convertRawSongData(res.data);
   graph = ForceGraph3D()
-  (document.getElementById('3d-graph'))
-  .graphData(data)
-  .nodeLabel('id')
-  .nodeAutoColorBy('group')
-  .linkDirectionalParticles("value")
-  .linkDirectionalParticleSpeed(d => d.value * 0.001);
-})
+    (document.getElementById('3d-graph'))
+    .graphData(data)
+    .nodeLabel('id')
+    .nodeAutoColorBy('group')
+    .linkDirectionalParticles("value")
+    .linkDirectionalParticleSpeed(d => d.value * 0.001)
+    .nodeThreeObject(node => {
+      const sprite = new SpriteText(node.id);
+      sprite.material.depthWrite = false;
+      sprite.color = node.color;
+      sprite.textHeight = 8;
+      return sprite;
+    })
+}
