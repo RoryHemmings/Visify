@@ -1,5 +1,6 @@
 let access_token = '';
-let data = { };
+let data = {};
+let graph;
 
 function getWidth() {
   return Math.max(
@@ -50,7 +51,7 @@ async function getData(tokens) {
   return await res.json();
 }
 
-async function setup() {
+async function onload() {
   access_token = '';
   const cookies = parseCookie();
   access_token = cookies.get('access_token');
@@ -59,11 +60,14 @@ async function setup() {
     window.location.href = '/login.html';
   }
 
-  createCanvas(getWidth(), getHeight());
   data = await getData(access_token);
   console.log(data);
-}
 
-function draw() {
-  background(51);
+  graph = ForceGraph3D()
+    (document.getElementById('3d-graph'))
+    .graphData(data)
+    .nodeLabel('id')
+    .nodeAutoColorBy('group')
+    .linkDirectionalParticles("value")
+    .linkDirectionalParticleSpeed(d => d.value * 0.001);
 }
