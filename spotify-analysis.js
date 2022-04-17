@@ -1,7 +1,8 @@
 const SpotifyWebApi = require('spotify-web-api-node')
 const EventEmitter = require('events')
 const math = require('mathjs')
-const { column, sort } = require('mathjs')
+const util = require('util')
+const { column, sort, re } = require('mathjs')
 
 async function _getUserInfo(userAccessToken) {
     var spotifyApi = new SpotifyWebApi()
@@ -15,7 +16,6 @@ async function _getUserInfo(userAccessToken) {
 async function getUserData(userAccessToken) {
     let userInfo = await getUserInfo(userAccessToken)
     let data = await getUserSongList(userAccessToken)
-    console.log({ userInfo, data })
     return { userInfo, data }
 }
 
@@ -36,8 +36,9 @@ async function _getUserTracks(userAccessToken) {
     var spotifyApi = new SpotifyWebApi()
     spotifyApi.setAccessToken(userAccessToken)
     let playlistsData = await spotifyApi.getUserPlaylists(
-        _getUserInfo(userAccessToken).id
+        (await _getUserInfo(userAccessToken)).id
     )
+    console.log(playlistsData.body)
     var trackEmitter = new EventEmitter()
 
     var tracks = []
@@ -70,10 +71,24 @@ async function getUserSongList(userAccessToken) {
     let spotifyApi = new SpotifyWebApi()
     spotifyApi.setAccessToken(userAccessToken)
     let tracks = await _getUserTracks(userAccessToken)
+
+    var addedTracks = []
+    var iter = 0
+    let trackLength = tracks.length
+    do { 
+        addedTracks.forEach(t => tracks.push(t))
+        addedTracks = []
+        let data = await spotifyApi.getMySavedTracks({ limit: 50, offset: iter*50})
+        data.body.items.forEach(t => addedTracks.push(t))
+        iter++
+    }while(addedTracks.length > 0)
+
+    console.log(`${tracks.length-trackLength} liked tracks added.`)
+
     var idNameMap = {}
     tracks.forEach(track => idNameMap[track.track.id] = track.track.name)
     var userSongList = []
-    var vis=new Set()
+    var vis = new Set()
     for (let i = 0; i < tracks.length; i += 48) {
         let trackIds = tracks.slice(i, i + 48).map(track => track.track.id)
         let features = await spotifyApi.getAudioFeaturesForTracks([trackIds])
@@ -141,9 +156,8 @@ async function getUserNodeLinkData(accessToken) {
 }
 
 // ; (async () => {
-//     let accessToken = 'BQAy_Yqd22_UnKHF6Q2KvMFhZBqplEFKWRE8wVAdKO6tQjlJSabt9_fWmJHcrUlvVIiTq-9Zbuk1urKqJn6sP0RCGAvkjexNls8OlO1nPAwgRuHGWdKybPSRvTV15lUnHgbqEFav7BOpqrviNcKe6_KJjSAfs_E90zsZ'
-//     let nodesAndLinks = await getUserMatrix(accessToken)
-//     process.stdout.write(JSON.stringify(nodesAndLinks))
+//     let accessToken = 'BQA1UH_hutOZT08eKnAsNOBDpCWCd4lZckRHJ7MWeBBS8tknkUoLeKwh8qWw8xm9Im7WLt5pBTxgkS4BTrMaA9-2MmEJuU4JY7__XKD8neVS-4OjZ0PBNI-P_bvHnfx6msqsl45scIMJWS3_UR0Dkf10Cp_bsxHzKpJb-w3SFSCfcdTvIfBB'
+//     let songs = await getUserSongList(accessToken)
 // })()
 
 exports.getUserMatrix = getUserMatrix
