@@ -15,8 +15,8 @@ async function _getUserInfo(userAccessToken) {
 async function getUserData(userAccessToken) {
     let userInfo = await getUserInfo(userAccessToken)
     let data = await getUserSongList(userAccessToken)
-    console.log({userInfo, data})
-    return {userInfo, data}
+    console.log({ userInfo, data })
+    return { userInfo, data }
 }
 
 /**
@@ -73,29 +73,35 @@ async function getUserSongList(userAccessToken) {
     var idNameMap = {}
     tracks.forEach(track => idNameMap[track.track.id] = track.track.name)
     var userSongList = []
+    var vis=new Set()
     for (let i = 0; i < tracks.length; i += 48) {
         let trackIds = tracks.slice(i, i + 48).map(track => track.track.id)
-        let features = await spotifyApi.getAudioFeaturesForTracks(trackIds)
+        let features = await spotifyApi.getAudioFeaturesForTracks([trackIds])
         features.body.audio_features.forEach(
-            feature => userSongList.push({
-                name: idNameMap[feature.id],
-                id: feature.id,
-                feature: _normalize([
-                    feature.danceability,
-                    feature.energy,
-                    feature.key,
-                    feature.loudness,
-                    feature.mode,
-                    feature.speechiness,
-                    feature.acousticness,
-                    feature.instrumentalness,
-                    feature.liveness,
-                    feature.valence,
-                    feature.tempo / 100, // compare it with 100
-                    (feature.duration_ms / 1000.0) / 60.0, // convert to minutes
-                    feature.time_signature
-                ])
-            })
+            feature => {
+                if(vis.has(feature.id)) return
+                vis.add(feature.id) 
+
+                userSongList.push({
+                    name: idNameMap[feature.id],
+                    id: feature.id,
+                    feature: _normalize([
+                        feature.danceability,
+                        feature.energy,
+                        feature.key,
+                        feature.loudness,
+                        feature.mode,
+                        feature.speechiness,
+                        feature.acousticness,
+                        feature.instrumentalness,
+                        feature.liveness,
+                        feature.valence,
+                        feature.tempo , // compare it with 100
+                        (feature.duration_ms / 1000.0) / 60.0, // convert to minutes
+                        feature.time_signature
+                    ])
+                })
+            }
         )
     }
     return userSongList
@@ -134,9 +140,9 @@ async function getUserNodeLinkData(accessToken) {
     return { nodes, links }
 }
 
-// ;(async () => {
-//     let accessToken = 'BQBwIfUnZ0VStjLmkisw3u2gL8ZwAvLKh__PS3CrCyqyNY-9Kzh4Qgz0pK0hYyvRByIRrCBo8rvHrKEtQIXtGZwrfIVY9jzshgeJXOOl5vdrej4-V5COjIaP3duXxosccCybC5_oPmtk6TeIfQpxzqLtywH0kMc'
-//     let nodesAndLinks = await getUserNodeLinkData(accessToken)
+// ; (async () => {
+//     let accessToken = 'BQAy_Yqd22_UnKHF6Q2KvMFhZBqplEFKWRE8wVAdKO6tQjlJSabt9_fWmJHcrUlvVIiTq-9Zbuk1urKqJn6sP0RCGAvkjexNls8OlO1nPAwgRuHGWdKybPSRvTV15lUnHgbqEFav7BOpqrviNcKe6_KJjSAfs_E90zsZ'
+//     let nodesAndLinks = await getUserMatrix(accessToken)
 //     process.stdout.write(JSON.stringify(nodesAndLinks))
 // })()
 

@@ -9,6 +9,7 @@ router.get('/data', (req, res) => {
         res.send(data)
     }).catch(err => {
         console.log(err)
+        res.clearCookie('access_token')
         res.redirect('/login.html')
     })
 })
